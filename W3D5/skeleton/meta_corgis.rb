@@ -109,17 +109,39 @@ class MetaCorgiSnacks
   def initialize(snack_box, box_id)
     @snack_box = snack_box
     @box_id = box_id
+    @snack_box.methods.grep(/^get_(.*)_info$/) { MetaCorgiSnacks.define_snack $1 }
   end
 
-  def method_missing(name, *args)
-    info = @snack_box.send("get_#{name.to_s}_info".to_sym, @box_id)
-    tastiness = @snack_box.send("get_#{name.to_s}_tastiness".to_sym, @box_id)
-    result = "#{name.to_s.capitalize}: #{info}: #{tastiness}"
-    tastiness > 30 ? "* #{result}" : result
-  end
+  # def method_missing(name, *args)
+  #   info = @snack_box.send("get_#{name.to_s}_info".to_sym, @box_id)
+  #   tastiness = @snack_box.send("get_#{name.to_s}_tastiness".to_sym, @box_id)
+  #   result = "#{name.to_s.capitalize}: #{info}: #{tastiness}"
+  #   tastiness > 30 ? "* #{result}" : result
+  # end
+
+#   def self.makes_sound(name)
+#     define_method(name) { puts "#{name}!" }
+#   end
+#
+#   makes_sound(:woof)
+#   makes_sound(:bark)
+#   makes_sound(:grr)
+# end
+#
+# dog = Dog.new
+# dog.woof
+# dog.bark
+# dog.grr
 
 
   def self.define_snack(name)
-    # Your code goes here...
+    byebug
+    define_method(name) {
+      info = @snack_box.send("get_#{name.to_s}_info".to_sym, @box_id)
+      tastiness = @snack_box.send("get_#{name.to_s}_tastiness".to_sym, @box_id)
+      result = "#{name.to_s.capitalize}: #{info}: #{tastiness}"
+      tastiness > 30 ? "* #{result}" : result
+
+    }
   end
 end
