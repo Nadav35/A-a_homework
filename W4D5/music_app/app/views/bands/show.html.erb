@@ -1,0 +1,35 @@
+<h3>What UUUUUUUUUP <%= @band.name %></h3>
+
+<section class="band-index-holder">
+  <nav>
+    <h2>My Albums</h2>
+  </nav>
+  <section class="band-index">
+    <% @band.albums.each do |album| %>
+      <a href=" <%= album_url(album) %>">
+        <div class="band-index-item">
+          <div>
+            <h3> <%= album.title %></h3>
+          </div>
+        </div>
+      </a>
+    <% end %>
+  </section>
+</section>
+
+
+<br><br>
+<a href=" <%= new_band_album_url(@band) %> ">New Album</a>
+<a href=" <%= edit_band_url(@band) %> ">Edit Band!!</a>
+<a href=" <%= bands_url %>">Back to Bands</a>
+<br>
+<form action=" <%= band_url %>" method="post">
+  <input type="hidden"
+    name="authenticity_token"
+    value=" <%= form_authenticity_token %>">
+  <input type="hidden"
+  name="_method"
+  value="delete">
+  <input type="submit" value="Delete Band">
+
+</form>
